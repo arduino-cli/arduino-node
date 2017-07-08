@@ -1,0 +1,22 @@
+{
+  "name": "arduino-node",
+  "version": "0.0.0",
+  "description": "CLI tools for Arduino written in nodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arduino-cli/arduino-node.git"
+  },
+  "keywords": [
+    "arduino-cli"
+  ],
+  "author": "Simone Primarosa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arduino-cli/arduino-node/issues"
+  },
+  "homepage": "https://github.com/arduino-cli/arduino-node#readme"
+}
