@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "CLI tools for Arduino written in nodeJS",
   "main": "index.js",
+  "preferGlobal": "true",
   "scripts": {
     "test": "test"
   },
