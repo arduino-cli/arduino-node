@@ -1,8 +1,10 @@
 import fs from 'fs';
+import path from 'path';
 import pify from 'pify';
 import test from 'ava';
 import arduino from './';
 
+const fixture = path.join.bind(path, __dirname, 'fixtures');
 test('arduino loads arduino latest', async t => {
   const arduinoObj = arduino({tag: 'load'});
   const err = await pify(arduinoObj.load)();
@@ -20,7 +22,7 @@ test('arduino fails to download a version', async t => {
 test('arduino run fail on test test.ino', async t => {
   const arduinoObj = arduino({tag: 'run'});
   pify(arduinoObj.load)();
-  const err = await pify(arduinoObj.run)(['--verify', 'fixtures\\test.ino']);
+  const err = await pify(arduinoObj.run)(['--verify', fixture('test.ino')]);
   t.is(err.failed, false);
 });
 
