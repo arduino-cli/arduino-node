@@ -190,7 +190,8 @@ function arduino(version) {
   return {
     run,
     load,
-    unload
+    unload,
+    binary
   };
 }
 
