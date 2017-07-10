@@ -74,11 +74,10 @@ function arduino(version) {
   /**
    * Load/download the current version of the binary
    *
-   * @param {Object} opts
    * @param {Function} callback
    * @api public
    */
-  function load(opts, callback) {
+  function load(callback) {
     if (inited) {
       bin.load(err => callback(err));
       return;
