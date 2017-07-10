@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/arduino-cli/arduino-node#readme",
   "dependencies": {
-    "bin-manager": "^1.0.0",
+    "bin-manager": "^1.1.0",
     "request": "^2.81.0",
     "semver": "^5.3.0"
   },
