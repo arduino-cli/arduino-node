@@ -177,6 +177,12 @@ function arduino(opts) {
    * @api private
    */
   function init(version) {
+    if (!version) {
+      throw new Error('Non semver version provided');
+    }
+    if (semver.lt(version, '1.5.2')) {
+      throw new Error('Arduino command line options are avaiable from the version 1.5.2');
+    }
     bin = manager(binPath, 'arduino-' + version + binSlug);
     MIRRORS.forEach(mirror => {
       bin.src(mirror.uri.replace('{{version}}', version), mirror.os, mirror.arch);
