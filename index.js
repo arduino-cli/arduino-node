@@ -96,11 +96,15 @@ function arduino(version) {
   /**
    * Removes the current version of the binary
    *
-   * @param  {Object} opts
+   * @param  {Object} [opts]
    * @param  {Function} callback
    * @api public
    */
   function unload(opts, callback) {
+    if (callback === undefined) {
+      callback = opts;
+      opts = {};
+    }
     if (inited) {
       bin.unload(opts, err => callback(err));
       return;
