@@ -42,7 +42,7 @@ const MIRRORS = [{
 function arduino(version) {
   version = version || 'latest';
   let inited = false;
-  const bin = manager(BIN_PATH, 'arduino' + version);
+  const bin = manager(BIN_PATH, 'arduino-' + version);
 
   /**
    * Runs the arduino binary
