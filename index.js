@@ -10,27 +10,27 @@ const MIRRORS = [{
   os: 'win32',
   arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-windows.zip',
-  bin: 'arduino-{{version}}\\arduino_debug.exe'
+  bin: 'arduino_debug.exe'
 }, {
   os: 'darwin',
   arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-macosx.zip',
-  bin: 'Arduino.app/Contents/MacOS/Arduino'
+  bin: 'Contents/MacOS/Arduino'
 }, {
   os: 'linux',
   arch: 'x32',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-linux32.tar.xz',
-  bin: 'arduino-{{version}}/arduino'
+  bin: 'arduino'
 }, {
   os: 'linux',
   arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-linux64.tar.xz',
-  bin: 'arduino-{{version}}/arduino'
+  bin: 'arduino'
 }, {
   os: 'linux',
   arch: 'arm',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-linuxarm.tar.xz',
-  bin: 'arduino-{{version}}/arduino'
+  bin: 'arduino'
 }];
 
 /**
@@ -82,7 +82,7 @@ function arduino(opts) {
    */
   function load(callback) {
     if (inited) {
-      bin.load(err => callback(err));
+      bin.load({extract: true, strip: 1}, err => callback(err));
       return;
     }
 
@@ -92,7 +92,7 @@ function arduino(opts) {
         return;
       }
       init(version);
-      bin.load(err => callback(err));
+      bin.load({extract: true, strip: 1}, err => callback(err));
     });
   }
 
