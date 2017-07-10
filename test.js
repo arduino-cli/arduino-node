@@ -2,7 +2,7 @@ import path from 'path';
 import del from 'del';
 import pify from 'pify';
 import executable from 'executable';
-import exists from 'file-exists';
+import exists from 'exists-file';
 import test from 'ava';
 import arduino from './';
 
@@ -34,7 +34,7 @@ test('arduino should load and unload arduino latest', async t => {
   t.is(exec, true);
   err = await pify(arduinoObj.unload)();
   t.is(err, undefined);
-  const result = await pify(exists)(arduinoObj.binary());
+  const result = await exists(arduinoObj.binary());
   t.is(result, false);
 });
 
