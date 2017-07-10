@@ -9,7 +9,7 @@ const MIRRORS = [{
   os: 'win32',
   arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-windows.zip',
-  bin: 'arduino_debug.exe'
+  bin: 'arduino-{{version}}\\arduino_debug.exe'
 }, {
   os: 'darwin',
   arch: 'x64',
@@ -42,7 +42,7 @@ const MIRRORS = [{
 function arduino(version) {
   version = version || 'latest';
   let inited = false;
-  const bin = manager(BIN_PATH, 'arduino-' + version);
+  let bin;
 
   /**
    * Runs the arduino binary
@@ -167,11 +167,12 @@ function arduino(version) {
    * @api private
    */
   function init(version) {
+    bin = manager(BIN_PATH, 'arduino-' + version);
     MIRRORS.forEach(mirror => {
       bin.src(mirror.uri.replace('{{version}}', version), mirror.os, mirror.arch);
 
       if (mirror.os === process.platform) {
-        bin.use(mirror.bin);
+        bin.use(mirror.bin.replace('{{version}}', version));
       }
     });
 
