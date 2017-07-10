@@ -8,10 +8,22 @@ import arduino from './';
 
 const fixture = path.join.bind(path, __dirname, 'fixtures');
 
-test('arduino should fail to download an invalid version', async t => {
-  const arduinoObj = arduino({version: '🦄', tag: 'fail'});
+test('arduino should fail to download an unreleased version', async t => {
+  const arduinoObj = arduino({version: '1000.0.0', tag: 'fail'});
   const err = await t.throws(pify(arduinoObj.load)());
   t.is(err.statusCode, 404);
+});
+
+test('arduino should fail if non semver version is provided', async t => {
+  const arduinoObj = arduino({version: '🦄'});
+  const err = await t.throws(pify(arduinoObj.load)());
+  t.is(err.message, 'Non semver version provided');
+});
+
+test('arduino should fail to download versions < 1.5.2', async t => {
+  const arduinoObj = arduino({version: '1.5.0'});
+  const err = await t.throws(pify(arduinoObj.load)());
+  t.is(err.message, 'Arduino command line options are avaiable from the version 1.5.2');
 });
 
 test('arduino should load and unload arduino latest', async t => {
