@@ -178,6 +178,15 @@ function arduino(version) {
     inited = true;
   }
 
+  /**
+   *
+   * @api public
+   * @returns /path/to/bin
+   */
+  function binary() {
+    return bin.bin();
+  }
+
   return {
     run,
     load,
