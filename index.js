@@ -35,7 +35,7 @@ const MIRRORS = [{
 /**
  * Initialize a new `Arduino`
  *
- * @param {Object} opts
+ * @param {String} version
  * @api public
  */
 
@@ -47,7 +47,6 @@ function arduino(version) {
   /**
    * Runs the arduino binary
    *
-   * @param {String}   version
    * @param {Array}    argv
    * @param {Function} callback
    * @api public
@@ -71,7 +70,8 @@ function arduino(version) {
   /**
    * Load/download the current version of the binary
    *
-   * @param  {Function} callback
+   * @param {Object} opts
+   * @param {Function} callback
    * @api public
    */
   function load(opts, callback) {
@@ -163,7 +163,7 @@ function arduino(version) {
   /**
    * Initializes the binary mirrors
    *
-   * @param  {String}   version
+   * @param {String} version
    * @api private
    */
   function init(version) {
