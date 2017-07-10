@@ -1,10 +1,12 @@
 import fs from 'fs';
+import path from 'path';
 import pify from 'pify';
 import test from 'ava';
 import arduino from './';
 
+const fixture = path.join.bind(path, __dirname, 'fixtures');
 test('arduino loads arduino latest', async t => {
-  const arduinoObj = arduino();
+  const arduinoObj = arduino({tag: 'load'});
   const err = await pify(arduinoObj.load)();
   t.is(err, undefined);
   const accessErr = await pify(fs.access)(arduinoObj.binary(), fs.constants.X_OK);
@@ -12,8 +14,23 @@ test('arduino loads arduino latest', async t => {
 });
 
 test('arduino fails to download a version', async t => {
-  const arduinoObj = arduino('🦄');
+  const arduinoObj = arduino({version: '🦄', tag: 'fail'});
   const err = await t.throws(pify(arduinoObj.load)());
   t.is(err.statusCode, 404);
 });
 
+test('arduino run fail on test test.ino', async t => {
+  const arduinoObj = arduino({tag: 'run'});
+  pify(arduinoObj.load)();
+  const err = await pify(arduinoObj.run)(['--verify', fixture('test.ino')]);
+  t.is(err.failed, false);
+});
+
+test('arduino unload on test latest version', async t => {
+  const arduinoObj = arduino({tag: 'unload'});
+  pify(arduinoObj.load)();
+  const err = await pify(arduinoObj.unload)();
+  t.is(err, undefined);
+  const accessErr = await t.throws(pify(fs.access)(arduinoObj.binary(), fs.constants.F_OK));
+  t.is(accessErr.code, 'ENOENT');
+});
