@@ -15,7 +15,7 @@ const MIRRORS = [{
   os: 'darwin',
   arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-macosx.zip',
-  bin: 'Contents/MacOS/Arduino'
+  bin: 'Arduino.app/Contents/MacOS/Arduino'
 }, {
   os: 'linux',
   arch: 'x32',
