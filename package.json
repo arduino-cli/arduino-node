@@ -5,8 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "xo --space && ava --verbose",
-    "xo": "xo --space",
-    "ava": "ava",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
