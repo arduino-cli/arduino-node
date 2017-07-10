@@ -4,14 +4,17 @@
   "description": "A wrapper of the Arduino IDE binary written in nodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "test",
-    "postinstall": "node install.js"
+    "test": "xo --space && ava",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arduino-cli/arduino-node.git"
   },
   "keywords": [
+    "arduino-node",
+    "arduino-binary",
+    "arduino-wrapper",
     "arduino-cli"
   ],
   "author": {
@@ -24,9 +27,20 @@
   },
   "homepage": "https://github.com/arduino-cli/arduino-node#readme",
   "dependencies": {
-    "bin-wrapper": "^3.0.2",
+    "bin-manager": "^1.0.0",
     "del": "^3.0.0",
     "request": "^2.81.0",
     "semver": "^5.3.0"
+  },
+  "devDependencies": {
+    "ava": "*",
+    "codecov": "^2.2.0",
+    "nock": "^9.0.13",
+    "nyc": "^11.0.3",
+    "path-exists": "^3.0.0",
+    "pify": "^3.0.0",
+    "rimraf": "^2.2.8",
+    "tempfile": "^2.0.0",
+    "xo": "*"
   }
 }
