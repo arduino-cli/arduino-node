@@ -9,7 +9,7 @@ const MIRRORS = [{
   os: 'win32',
   arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-windows.zip',
-  bin: 'arduino_debug.exe'
+  bin: 'arduino-{{version}}\\arduino_debug.exe'
 }, {
   os: 'darwin',
   arch: 'x64',
@@ -35,24 +35,27 @@ const MIRRORS = [{
 /**
  * Initialize a new `Arduino`
  *
- * @param {Object} opts
+ * @param {String} version
  * @api public
  */
 
 function arduino(version) {
   version = version || 'latest';
   let inited = false;
-  const bin = manager(BIN_PATH, 'arduino' + version);
+  let bin;
 
   /**
    * Runs the arduino binary
    *
-   * @param {String}   version
-   * @param {Array}    argv
+   * @param {Array}    [argv]
    * @param {Function} callback
    * @api public
    */
   function run(argv, callback) {
+    if (callback === undefined) {
+      callback = argv;
+      argv = [];
+    }
     if (inited) {
       bin.run(argv, callback);
       return;
@@ -71,10 +74,10 @@ function arduino(version) {
   /**
    * Load/download the current version of the binary
    *
-   * @param  {Function} callback
+   * @param {Function} callback
    * @api public
    */
-  function load(opts, callback) {
+  function load(callback) {
     if (inited) {
       bin.load(err => callback(err));
       return;
@@ -93,11 +96,15 @@ function arduino(version) {
   /**
    * Removes the current version of the binary
    *
-   * @param  {Object} opts
+   * @param  {Object} [opts]
    * @param  {Function} callback
    * @api public
    */
   function unload(opts, callback) {
+    if (callback === undefined) {
+      callback = opts;
+      opts = {};
+    }
     if (inited) {
       bin.unload(opts, err => callback(err));
       return;
@@ -163,25 +170,36 @@ function arduino(version) {
   /**
    * Initializes the binary mirrors
    *
-   * @param  {String}   version
+   * @param {String} version
    * @api private
    */
   function init(version) {
+    bin = manager(BIN_PATH, 'arduino-' + version);
     MIRRORS.forEach(mirror => {
       bin.src(mirror.uri.replace('{{version}}', version), mirror.os, mirror.arch);
 
       if (mirror.os === process.platform) {
-        bin.use(mirror.bin);
+        bin.use(mirror.bin.replace('{{version}}', version));
       }
     });
 
     inited = true;
   }
 
+  /**
+   *
+   * @api public
+   * @returns /path/to/bin
+   */
+  function binary() {
+    return bin.bin();
+  }
+
   return {
     run,
     load,
-    unload
+    unload,
+    binary
   };
 }
 
