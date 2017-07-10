@@ -8,12 +8,10 @@ const BIN_PATH = 'bin';
 const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-latest/VERSION';
 const MIRRORS = [{
   os: 'win32',
-  arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-windows.zip',
   bin: 'arduino_debug.exe'
 }, {
   os: 'darwin',
-  arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-macosx.zip',
   bin: 'Contents/MacOS/Arduino'
 }, {
