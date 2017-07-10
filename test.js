@@ -17,3 +17,10 @@ test('arduino fails to download a version', async t => {
   t.is(err.statusCode, 404);
 });
 
+test('arduino unload on test latest version', async t => {
+  const arduinoObj = arduino();
+  const err = await pify(arduinoObj.unload)();
+  t.is(err, undefined);
+  const accessErr = await t.throws(pify(fs.access)(arduinoObj.binary(), fs.constants.F_OK));
+  t.is(accessErr.code, 'ENOENT');
+});
