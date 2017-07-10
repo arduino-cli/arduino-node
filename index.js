@@ -47,7 +47,7 @@ function arduino(version) {
   /**
    * Runs the arduino binary
    *
-   * @param {Array}    argv
+   * @param {Array}    [argv]
    * @param {Function} callback
    * @api public
    */
