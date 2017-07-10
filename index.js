@@ -35,12 +35,14 @@ const MIRRORS = [{
 /**
  * Initialize a new `Arduino`
  *
- * @param {String} version
+ * @param {Object} [opts]
  * @api public
  */
 
-function arduino(version) {
-  version = version || 'latest';
+function arduino(opts) {
+  const version = opts.version || 'latest';
+  const binPath = opts.path || BIN_PATH;
+  const binSlug = opts.tag ? ('-' + opts.tag) : '';
   let inited = false;
   let bin;
 
@@ -174,7 +176,7 @@ function arduino(version) {
    * @api private
    */
   function init(version) {
-    bin = manager(BIN_PATH, 'arduino-' + version);
+    bin = manager(binPath, 'arduino-' + version + binSlug);
     MIRRORS.forEach(mirror => {
       bin.src(mirror.uri.replace('{{version}}', version), mirror.os, mirror.arch);
 
