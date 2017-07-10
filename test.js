@@ -11,3 +11,9 @@ test('arduino loads arduino latest', async t => {
   t.is(accessErr, undefined);
 });
 
+test('arduino fails to download a version', async t => {
+  const arduinoObj = arduino('🦄');
+  const err = await t.throws(pify(arduinoObj.load)());
+  t.is(err.statusCode, 404);
+});
+
