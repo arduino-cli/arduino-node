@@ -99,17 +99,12 @@ function arduino(opts) {
   /**
    * Removes the current version of the binary
    *
-   * @param  {Object} [opts]
    * @param  {Function} callback
    * @api public
    */
-  function unload(opts, callback) {
-    if (callback === undefined) {
-      callback = opts;
-      opts = {};
-    }
+  function unload(callback) {
     if (inited) {
-      bin.unload(opts, err => callback(err));
+      bin.unload(err => callback(err));
       return;
     }
 
@@ -119,7 +114,7 @@ function arduino(opts) {
         return;
       }
       init(version);
-      bin.unload(opts, err => callback(err));
+      bin.unload(err => callback(err));
     });
   }
 
