@@ -52,6 +52,10 @@ function arduino(version) {
    * @api public
    */
   function run(argv, callback) {
+    if (callback === undefined) {
+      callback = argv;
+      argv = [];
+    }
     if (inited) {
       bin.run(argv, callback);
       return;
