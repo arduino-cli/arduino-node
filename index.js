@@ -20,17 +20,17 @@ const MIRRORS = [{
   os: 'linux',
   arch: 'x32',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-linux32.tar.xz',
-  bin: 'arduino'
+  bin: 'arduino-{{version}}/arduino'
 }, {
   os: 'linux',
   arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-linux64.tar.xz',
-  bin: 'arduino'
+  bin: 'arduino-{{version}}/arduino'
 }, {
   os: 'linux',
   arch: 'arm',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-linuxarm.tar.xz',
-  bin: 'arduino'
+  bin: 'arduino-{{version}}/arduino'
 }];
 
 /**
