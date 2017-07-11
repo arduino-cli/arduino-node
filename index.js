@@ -194,7 +194,17 @@ function arduino(opts) {
    * @returns /path/to/bin
    */
   function binary() {
-    return bin.bin();
+    if (inited) {
+      return bin.bin();
+    }
+    getSanitizedVersion((err, version) => {
+      if (err) {
+        callback(err);
+        return;
+      }
+      init(version);
+      return bin.bin();
+    });
   }
 
   return {
