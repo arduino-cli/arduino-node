@@ -1,16 +1,18 @@
 'use strict';
 const path = require('path');
 
-const request = require('request');
-const semver = require('semver');
-const del = require('del');
+const lazyReq = require('lazy-req')(require);
 
-const manager = require('bin-manager');
+const request = lazyReq('request');
+const semver = lazyReq('semver');
+const del = lazyReq('del');
 
-const osFilterObj = require('os-filter-obj');
+const manager = lazyReq('bin-manager');
 
-const decompressTarxz = require('decompress-tarxz');
-const decompressUnzip = require('decompress-unzip');
+const osFilterObj = lazyReq('os-filter-obj');
+
+const decompressTarxz = lazyReq('decompress-tarxz');
+const decompressUnzip = lazyReq('decompress-unzip');
 
 const BIN_PATH = 'bin';
 
@@ -100,7 +102,7 @@ function arduino(opts) {
     const opts = {
       extract: true,
       strip: 1,
-      plugins: [decompressUnzip(), decompressTarxz()]
+      plugins: [decompressUnzip()(), decompressTarxz()()]
     };
 
     if (inited) {
@@ -123,7 +125,7 @@ function arduino(opts) {
         // HACK: remove the splash.png file because the arduino IDE does not
         // hide it in command line mode.
         // See https://github.com/arduino/Arduino/blob/master/build/shared/manpage.adoc
-        const splash = osFilterObj(SPLASH_SCREEN);
+        const splash = osFilterObj()(SPLASH_SCREEN);
         if (splash.length === 0) {
           callback();
           return;
@@ -131,7 +133,7 @@ function arduino(opts) {
         const dirs = splash.map(s => {
           return path.join(bin.path(), s.img);
         });
-        del(dirs)
+        del()(dirs)
           .then(() => callback())
           .catch(err => callback(err));
       });
@@ -172,7 +174,7 @@ function arduino(opts) {
         callback(err);
         return;
       }
-      version = semver.clean(version);
+      version = semver().clean(version);
       callback(null, version);
     });
   }
@@ -198,7 +200,7 @@ function arduino(opts) {
    * @api private
   */
   function getLatestVersion(callback) {
-    request(LATEST_ENDPOINT, (err, res, body) => {
+    request()(LATEST_ENDPOINT, (err, res, body) => {
       if (err || res.statusCode !== 200) {
         callback(err || 'error: ' + err.statusCode);
         return;
@@ -217,10 +219,10 @@ function arduino(opts) {
     if (!version) {
       throw new Error('Non semver version provided');
     }
-    if (semver.lt(version, '1.5.2')) {
+    if (semver().lt(version, '1.5.2')) {
       throw new Error('Arduino command line options are avaiable from the version 1.5.2');
     }
-    bin = manager(binPath, 'arduino-' + version + binSlug);
+    bin = manager()(binPath, 'arduino-' + version + binSlug);
     MIRRORS.forEach(mirror => {
       bin.src(mirror.uri.replace('{{version}}', version), mirror.os, mirror.arch);
 

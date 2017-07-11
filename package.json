@@ -31,6 +31,7 @@
     "decompress-tarxz": "^2.1.0",
     "decompress-unzip": "^4.0.1",
     "del": "^3.0.0",
+    "lazy-req": "^2.0.0",
     "os-filter-obj": "^1.0.3",
     "request": "^2.81.0",
     "semver": "^5.3.0"
