@@ -178,7 +178,9 @@ function arduino(opts) {
     }
     bin = manager(binPath, 'arduino-' + version + binSlug);
     MIRRORS.forEach(mirror => {
-      bin.src(mirror.uri.replace('{{version}}', version), mirror.os, mirror.arch);
+      bin.src(mirror.uri.replace('{{version}}', version === 'latest' && mirror.os === 'linux' ? 'nightly' : version),
+              mirror.os,
+              mirror.arch);
 
       if (mirror.os === process.platform) {
         bin.use(mirror.bin.replace('{{version}}', version));
