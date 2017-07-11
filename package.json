@@ -28,6 +28,8 @@
   "homepage": "https://github.com/arduino-cli/arduino-node#readme",
   "dependencies": {
     "bin-manager": "^1.1.1",
+    "decompress-tarxz": "^2.1.0",
+    "decompress-unzip": "^4.0.1",
     "request": "^2.81.0",
     "semver": "^5.3.0"
   },

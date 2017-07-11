@@ -4,6 +4,9 @@ const semver = require('semver');
 
 const manager = require('bin-manager');
 
+const decompressTarxz = require('decompress-tarxz');
+const decompressUnzip = require('decompress-unzip');
+
 const BIN_PATH = 'bin';
 const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-latest/VERSION';
 const MIRRORS = [{
@@ -79,8 +82,14 @@ function arduino(opts) {
    * @api public
    */
   function load(callback) {
+    const opts = {
+      extract: true,
+      strip: 1,
+      plugins: [decompressUnzip(), decompressTarxz()]
+    };
+
     if (inited) {
-      bin.load({extract: true, strip: 1}, err => callback(err));
+      bin.load(opts, err => callback(err));
       return;
     }
 
@@ -90,7 +99,7 @@ function arduino(opts) {
         return;
       }
       init(version);
-      bin.load({extract: true, strip: 1}, err => callback(err));
+      bin.load(opts, err => callback(err));
     });
   }
 
