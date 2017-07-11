@@ -1,3 +1,4 @@
+'use strict';
 const request = require('request');
 const semver = require('semver');
 
@@ -7,12 +8,10 @@ const BIN_PATH = 'bin';
 const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-latest/VERSION';
 const MIRRORS = [{
   os: 'win32',
-  arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-windows.zip',
   bin: 'arduino_debug.exe'
 }, {
   os: 'darwin',
-  arch: 'x64',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-macosx.zip',
   bin: 'Contents/MacOS/Arduino'
 }, {
@@ -35,24 +34,29 @@ const MIRRORS = [{
 /**
  * Initialize a new `Arduino`
  *
- * @param {Object} opts
+ * @param {Object} [opts]
  * @api public
  */
 
-function arduino(version) {
-  version = version || 'latest';
+function arduino(opts) {
+  const version = opts.version || 'latest';
+  const binPath = opts.path || BIN_PATH;
+  const binSlug = opts.tag ? ('-' + opts.tag) : '';
   let inited = false;
-  const bin = manager(BIN_PATH, 'arduino' + version);
+  let bin;
 
   /**
    * Runs the arduino binary
    *
-   * @param {String}   version
-   * @param {Array}    argv
+   * @param {Array}    [argv]
    * @param {Function} callback
    * @api public
    */
   function run(argv, callback) {
+    if (callback === undefined) {
+      callback = argv;
+      argv = [];
+    }
     if (inited) {
       bin.run(argv, callback);
       return;
@@ -71,12 +75,12 @@ function arduino(version) {
   /**
    * Load/download the current version of the binary
    *
-   * @param  {Function} callback
+   * @param {Function} callback
    * @api public
    */
-  function load(opts, callback) {
+  function load(callback) {
     if (inited) {
-      bin.load(err => callback(err));
+      bin.load({extract: true, strip: 1}, err => callback(err));
       return;
     }
 
@@ -86,20 +90,19 @@ function arduino(version) {
         return;
       }
       init(version);
-      bin.load(err => callback(err));
+      bin.load({extract: true, strip: 1}, err => callback(err));
     });
   }
 
   /**
    * Removes the current version of the binary
    *
-   * @param  {Object} opts
    * @param  {Function} callback
    * @api public
    */
-  function unload(opts, callback) {
+  function unload(callback) {
     if (inited) {
-      bin.unload(opts, err => callback(err));
+      bin.unload(err => callback(err));
       return;
     }
 
@@ -109,7 +112,7 @@ function arduino(version) {
         return;
       }
       init(version);
-      bin.unload(opts, err => callback(err));
+      bin.unload(err => callback(err));
     });
   }
 
@@ -163,25 +166,42 @@ function arduino(version) {
   /**
    * Initializes the binary mirrors
    *
-   * @param  {String}   version
+   * @param {String} version
    * @api private
    */
   function init(version) {
+    if (!version) {
+      throw new Error('Non semver version provided');
+    }
+    if (semver.lt(version, '1.5.2')) {
+      throw new Error('Arduino command line options are avaiable from the version 1.5.2');
+    }
+    bin = manager(binPath, 'arduino-' + version + binSlug);
     MIRRORS.forEach(mirror => {
       bin.src(mirror.uri.replace('{{version}}', version), mirror.os, mirror.arch);
 
       if (mirror.os === process.platform) {
-        bin.use(mirror.bin);
+        bin.use(mirror.bin.replace('{{version}}', version));
       }
     });
 
     inited = true;
   }
 
+  /**
+   *
+   * @api public
+   * @returns /path/to/bin
+   */
+  function binary() {
+    return bin.bin();
+  }
+
   return {
     run,
     load,
-    unload
+    unload,
+    binary
   };
 }
 
