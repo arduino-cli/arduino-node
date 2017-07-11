@@ -30,11 +30,12 @@ test('arduino should load and unload arduino latest', async t => {
   const arduinoObj = arduino({tag: 'load'});
   let err = await pify(arduinoObj.load)();
   t.is(err, undefined);
-  const exec = await executable(arduinoObj.binary());
+  const bin = await pify(arduinoObj.binary)();
+  const exec = await executable(bin);
   t.is(exec, true);
   err = await pify(arduinoObj.unload)();
   t.is(err, undefined);
-  const result = await exists(arduinoObj.binary());
+  const result = await exists(bin);
   t.is(result, false);
 });
 

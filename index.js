@@ -193,9 +193,10 @@ function arduino(opts) {
    * @api public
    * @returns /path/to/bin
    */
-  function binary() {
+  function binary(callback) {
     if (inited) {
-      return bin.bin();
+      callback(null, bin.bin());
+      return;
     }
     getSanitizedVersion((err, version) => {
       if (err) {
@@ -203,7 +204,7 @@ function arduino(opts) {
         return;
       }
       init(version);
-      return bin.bin();
+      callback(null, bin.bin());
     });
   }
 
