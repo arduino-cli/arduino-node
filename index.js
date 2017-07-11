@@ -191,9 +191,10 @@ function arduino(opts) {
   /**
    *
    * @api public
+   * @param [callback]
    * @returns /path/to/bin
    */
-  function binary() {
+  function binary(callback) {
     if (inited) {
       return bin.bin();
     }
