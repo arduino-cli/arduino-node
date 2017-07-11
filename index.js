@@ -4,7 +4,7 @@ const semver = require('semver');
 
 const manager = require('bin-manager');
 
-const BIN_PATH = 'bin';
+const BIN_PATH = './bin';
 const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-latest/VERSION';
 const MIRRORS = [{
   os: 'win32',
