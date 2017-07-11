@@ -8,7 +8,9 @@ const decompressTarxz = require('decompress-tarxz');
 const decompressUnzip = require('decompress-unzip');
 
 const BIN_PATH = 'bin';
+
 const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-latest/VERSION';
+
 const MIRRORS = [{
   os: 'win32',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-windows.zip',
