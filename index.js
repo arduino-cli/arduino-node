@@ -1,8 +1,13 @@
 'use strict';
+const path = require('path');
+
 const request = require('request');
 const semver = require('semver');
+const del = require('del');
 
 const manager = require('bin-manager');
+
+const osFilterObj = require('os-filter-obj');
 
 const decompressTarxz = require('decompress-tarxz');
 const decompressUnzip = require('decompress-unzip');
@@ -34,6 +39,14 @@ const MIRRORS = [{
   arch: 'arm',
   uri: 'https://downloads.arduino.cc/arduino-{{version}}-linuxarm.tar.xz',
   bin: 'arduino'
+}];
+
+const SPLASH_SCREEN = [{
+  os: 'win32',
+  img: 'lib/splash.png'
+}, {
+  os: 'darwin',
+  img: 'Contents/Java/lib/splash.png'
 }];
 
 /**
@@ -101,7 +114,27 @@ function arduino(opts) {
         return;
       }
       init(version);
-      bin.load(opts, err => callback(err));
+      bin.load(opts, err => {
+        if (err) {
+          callback(err);
+          return;
+        }
+
+        // HACK: remove the splash.png file because the arduino IDE does not
+        // hide it in command line mode.
+        // See https://github.com/arduino/Arduino/blob/master/build/shared/manpage.adoc
+        const splash = osFilterObj(SPLASH_SCREEN);
+        if (!splash) {
+          callback();
+          return;
+        }
+        const dirs = splash.map(s => {
+          return path.join(bin.path(), s.img);
+        });
+        del(dirs)
+          .then(() => callback())
+          .catch(err => callback(err));
+      });
     });
   }
 

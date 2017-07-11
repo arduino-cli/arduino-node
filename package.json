@@ -30,13 +30,14 @@
     "bin-manager": "^1.1.1",
     "decompress-tarxz": "^2.1.0",
     "decompress-unzip": "^4.0.1",
+    "del": "^3.0.0",
+    "os-filter-obj": "^1.0.3",
     "request": "^2.81.0",
     "semver": "^5.3.0"
   },
   "devDependencies": {
     "ava": "*",
     "codecov": "^2.2.0",
-    "del": "^3.0.0",
     "executable": "^4.1.0",
     "exists-file": "^3.0.1",
     "nock": "^9.0.13",
