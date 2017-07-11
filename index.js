@@ -222,7 +222,7 @@ function arduino(opts) {
     if (semver().lt(version, '1.5.2')) {
       throw new Error('Arduino command line options are avaiable from the version 1.5.2');
     }
-    const slug = path.join('arduino-' + version + binSlug, 'arduino-' + version);
+    const slug = 'arduino-' + version + binSlug;
     bin = manager()(binPath, slug);
     MIRRORS.forEach(mirror => {
       bin.src(mirror.uri.replace('{{version}}', version), mirror.os, mirror.arch);
