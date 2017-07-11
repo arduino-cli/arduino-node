@@ -124,7 +124,7 @@ function arduino(opts) {
         // hide it in command line mode.
         // See https://github.com/arduino/Arduino/blob/master/build/shared/manpage.adoc
         const splash = osFilterObj(SPLASH_SCREEN);
-        if (!splash) {
+        if (splash.length === 0) {
           callback();
           return;
         }
