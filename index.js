@@ -4,7 +4,7 @@ const semver = require('semver');
 
 const manager = require('bin-manager');
 
-const BIN_PATH = 'bin';
+const BIN_PATH = './bin';
 const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-latest/VERSION';
 const MIRRORS = [{
   os: 'win32',
@@ -193,7 +193,7 @@ function arduino(opts) {
    * @api public
    * @returns /path/to/bin
    */
-  function binary() {
+  function binary(callback) {
     if (inited) {
       return bin.bin();
     }
