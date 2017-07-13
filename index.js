@@ -225,10 +225,10 @@ function arduino(opts) {
     const slug = 'arduino-' + version + binSlug;
     bin = manager()(binPath, slug);
     MIRRORS.forEach(mirror => {
-      bin.src(mirror.uri.replace('{{version}}', version), mirror.os, mirror.arch);
+      bin.src(mirror.uri.replace(/{{version}}/g, version), mirror.os, mirror.arch);
 
       if (mirror.os === process.platform) {
-        bin.use(mirror.bin.replace('{{version}}', version));
+        bin.use(mirror.bin.replace(/{{version}}/g, version));
       }
     });
 
