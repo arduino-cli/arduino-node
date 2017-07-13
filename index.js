@@ -11,35 +11,32 @@ const manager = lazyReq('bin-manager');
 
 const osFilterObj = lazyReq('os-filter-obj');
 
-const decompressTarxz = lazyReq('decompress-tarxz');
-const decompressUnzip = lazyReq('decompress-unzip');
-
 const BIN_PATH = 'bin';
 
-const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-latest/VERSION';
+const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-version/VERSION';
 
 const MIRRORS = [{
   os: 'win32',
-  uri: 'https://downloads.arduino.cc/arduino-{{version}}-windows.zip',
+  uri: 'https://github.com/arduino-cli/arduino-version/releases/download/{{version}}/arduino-{{version}}-windows.zip',
   bin: 'arduino_debug.exe'
 }, {
   os: 'darwin',
-  uri: 'https://downloads.arduino.cc/arduino-{{version}}-macosx.zip',
+  uri: 'https://github.com/arduino-cli/arduino-version/releases/download/{{version}}/arduino-{{version}}-macosx.zip',
   bin: 'Contents/MacOS/Arduino'
 }, {
   os: 'linux',
   arch: 'x32',
-  uri: 'https://downloads.arduino.cc/arduino-{{version}}-linux32.tar.xz',
+  uri: 'https://github.com/arduino-cli/arduino-version/releases/download/{{version}}/arduino-{{version}}-linux32.zip',
   bin: 'arduino'
 }, {
   os: 'linux',
   arch: 'x64',
-  uri: 'https://downloads.arduino.cc/arduino-{{version}}-linux64.tar.xz',
+  uri: 'https://github.com/arduino-cli/arduino-version/releases/download/{{version}}/arduino-{{version}}-linux64.zip',
   bin: 'arduino'
 }, {
   os: 'linux',
   arch: 'arm',
-  uri: 'https://downloads.arduino.cc/arduino-{{version}}-linuxarm.tar.xz',
+  uri: 'https://github.com/arduino-cli/arduino-version/releases/download/{{version}}/arduino-{{version}}-linuxarm.zip',
   bin: 'arduino'
 }];
 
@@ -101,8 +98,7 @@ function arduino(opts) {
   function load(callback) {
     const opts = {
       extract: true,
-      strip: 1,
-      plugins: [decompressUnzip()(), decompressTarxz()()]
+      strip: 1
     };
 
     if (inited) {
