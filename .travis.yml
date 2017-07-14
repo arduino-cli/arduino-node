@@ -13,3 +13,4 @@ addons:
   apt:
     packages:
       - oracle-java8-set-default
+script: travis_wait 60 xo --space && ava --verbose
