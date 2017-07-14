@@ -176,7 +176,7 @@ function arduino(opts) {
       }
       const valid = vers.some(v => v === version);
       if (!valid) {
-        callback(new Error('The version provided is not available.'));
+        callback(new Error('The version provided is not available'));
         return;
       }
       callback(null, version);
