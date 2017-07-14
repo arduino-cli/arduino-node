@@ -39,42 +39,22 @@ test('arduino should load and unload arduino latest', async t => {
   t.is(result, false);
 });
 
-test('arduino verify should compile on arduino 1.8.3', async t => {
-  const arduinoObj = arduino({tag: 'verify', version: '1.8.3'});
-  await pify(arduinoObj.load)();
-  const err = await t.throws(pify(arduinoObj.run)(['--verify', fixture('invalid/invalid.ino')]));
-  t.is(err.failed, true);
-  const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
-  t.is(out.failed, false);
-});
-
-test('arduino verify should compile on arduino 1.8.2', async t => {
-  const arduinoObj = arduino({tag: 'verify', version: '1.8.2'});
-  await pify(arduinoObj.load)();
-  const err = await t.throws(pify(arduinoObj.run)(['--verify', fixture('invalid/invalid.ino')]));
-  t.is(err.failed, true);
-  const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
-  t.is(out.failed, false);
-});
-
-test('arduino verify should compile on arduino 1.8.1', async t => {
-  const arduinoObj = arduino({tag: 'verify', version: '1.8.1'});
-  await pify(arduinoObj.load)();
-  const err = await t.throws(pify(arduinoObj.run)(['--verify', fixture('invalid/invalid.ino')]));
-  t.is(err.failed, true);
-  const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
-  t.is(out.failed, false);
-});
-
-test('arduino verify should compile on arduino 1.8.0', async t => {
-  const arduinoObj = arduino({tag: 'verify', version: '1.8.0'});
-  await pify(arduinoObj.load)();
-  const err = await t.throws(pify(arduinoObj.run)(['--verify', fixture('invalid/invalid.ino')]));
-  t.is(err.failed, true);
-  const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
-  t.is(out.failed, false);
-});
+testVersion('1.8.3');
+testVersion('1.8.2');
+testVersion('1.8.1');
+testVersion('1.8.0');
 
 test.after('cleanup', async t => {
   await t.notThrows(del('tmp'));
 });
+
+function testVersion(version) {
+  return test('arduino verify should compile on arduino ' + version, async t => {
+    const arduinoObj = arduino({tag: 'verify', version: version});
+    await pify(arduinoObj.load)();
+    const err = await t.throws(pify(arduinoObj.run)(['--verify', fixture('invalid/invalid.ino')]));
+    t.is(err.failed, true);
+    const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
+    t.is(out.failed, false);
+  });
+}
