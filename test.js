@@ -66,6 +66,15 @@ test('arduino verify should compile on arduino 1.8.1', async t => {
   t.is(out.failed, false);
 });
 
+test('arduino verify should compile on arduino 1.8.0', async t => {
+  const arduinoObj = arduino({tag: 'verify', version: '1.8.0'});
+  await pify(arduinoObj.load)();
+  const err = await t.throws(pify(arduinoObj.run)(['--verify', fixture('invalid/invalid.ino')]));
+  t.is(err.failed, true);
+  const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
+  t.is(out.failed, false);
+});
+
 test.after('cleanup', async t => {
   await t.notThrows(del('tmp'));
 });
