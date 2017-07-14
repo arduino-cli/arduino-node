@@ -13,7 +13,7 @@ const osFilterObj = lazyReq('os-filter-obj');
 
 const BIN_PATH = 'bin';
 
-const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-version/version';
+const VERSION_LIST_ENDPOINT = 'https://arduino-cli.github.io/arduino-version/list';
 
 const MIRRORS = [{
   os: 'win32',
@@ -79,7 +79,7 @@ function arduino(opts) {
       return;
     }
 
-    getSanitizedVersion((err, version) => {
+    getFullVersion((err, version) => {
       if (err) {
         callback(err);
         return;
@@ -106,7 +106,7 @@ function arduino(opts) {
       return;
     }
 
-    getSanitizedVersion((err, version) => {
+    getFullVersion((err, version) => {
       if (err) {
         callback(err);
         return;
@@ -148,7 +148,7 @@ function arduino(opts) {
       return;
     }
 
-    getSanitizedVersion((err, version) => {
+    getFullVersion((err, version) => {
       if (err) {
         callback(err);
         return;
@@ -159,44 +159,38 @@ function arduino(opts) {
   }
 
   /**
-   * Gets the version and the it sanitizes it
-   *
-   * @param  {Function} callback
-   * @api private
-   */
-  function getSanitizedVersion(callback) {
-    getFullVersion((err, version) => {
-      if (err) {
-        callback(err);
-        return;
-      }
-      version = semver().clean(version);
-      callback(null, version);
-    });
-  }
-
-  /**
-   * Gets the right version number when special values are passed as version
+   * Checks if a version is available.
    *
    * @param  {Function} callback
    * @api private
    */
   function getFullVersion(callback) {
-    if (version !== 'latest') {
+    getVersionsList((err, vers) => {
+      if (err) {
+        callback(err);
+        return;
+      }
+      if (version === 'latest') {
+        callback(null, vers[vers.length - 1]);
+        return;
+      }
+      const valid = vers.some(v => v === version);
+      if (!valid) {
+        callback(new Error('The version provided is not available.'));
+        return;
+      }
       callback(null, version);
-      return;
-    }
-    getLatestVersion(callback);
+    });
   }
 
   /**
-   * Retrieves latest arduino ide version available
+   * Retrieves the list of arduino ide versions available
    *
    * @param  {Function} callback
    * @api private
   */
-  function getLatestVersion(callback) {
-    request()(LATEST_ENDPOINT, (err, res, body) => {
+  function getVersionsList(callback) {
+    request()(VERSION_LIST_ENDPOINT, (err, res, body) => {
       if (err) {
         callback('Cannot resolve the latest version: ' + err);
         return;
@@ -205,7 +199,8 @@ function arduino(opts) {
         callback('Cannot resolve the latest version: ' + res.statusCode);
         return;
       }
-      callback(null, body);
+      const vers = body.split('j').map(v => semver().clean(v));
+      callback(null, vers);
     });
   }
 
@@ -216,12 +211,6 @@ function arduino(opts) {
    * @api private
    */
   function init(version) {
-    if (!version) {
-      throw new Error('Non semver version provided');
-    }
-    if (semver().lt(version, '1.5.2')) {
-      throw new Error('Arduino command line options are avaiable from the version 1.5.2');
-    }
     const slug = 'arduino-' + version + binSlug;
     bin = manager()(binPath, slug);
     MIRRORS.forEach(mirror => {
@@ -245,7 +234,7 @@ function arduino(opts) {
       callback(null, bin.bin());
       return;
     }
-    getSanitizedVersion((err, version) => {
+    getFullVersion((err, version) => {
       if (err) {
         callback(err);
         return;
