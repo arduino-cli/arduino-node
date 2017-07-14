@@ -27,7 +27,7 @@ test('arduino should fail to download versions < 1.5.2', async t => {
 });
 
 test('arduino should load and unload arduino latest', async t => {
-  const arduinoObj = arduino({tag: 'load'});
+  const arduinoObj = arduino({path: 'tmp', tag: 'load'});
   let err = await pify(arduinoObj.load)();
   t.is(err, undefined);
   const bin = await pify(arduinoObj.binary)();
@@ -50,5 +50,5 @@ test('arduino verify should compile', async t => {
 });
 
 test.after('cleanup', async t => {
-  await t.notThrows(del('bin'));
+  await t.notThrows(del('tmp'));
 });
