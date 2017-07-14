@@ -199,7 +199,7 @@ function arduino(opts) {
         callback('Cannot get the version list: ' + res.statusCode);
         return;
       }
-      const vers = body.split('j').map(v => semver().clean(v));
+      const vers = body.split(',').map(v => semver().clean(v));
       callback(null, vers);
     });
   }
