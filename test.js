@@ -72,6 +72,14 @@ testVersion('1.6.2');
 testVersion('1.6.1');
 testVersion('1.6.0');
 
+testVersion('1.5.8');
+testVersion('1.5.7');
+testVersion('1.5.6');
+testVersion('1.5.5');
+testVersion('1.5.4');
+testVersion('1.5.3');
+testVersion('1.5.2');
+
 test.after('cleanup', async t => {
   await t.notThrows(del('tmp'));
 });
