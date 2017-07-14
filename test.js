@@ -46,7 +46,6 @@ test('arduino verify should compile', async t => {
   t.is(err.failed, true);
   const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
   t.is(out.failed, false);
-  await t.notThrows(pify(arduinoObj.unload)());
 });
 
 test.after('cleanup', async t => {
