@@ -192,11 +192,11 @@ function arduino(opts) {
   function getVersionsList(callback) {
     request()(VERSION_LIST_ENDPOINT, (err, res, body) => {
       if (err) {
-        callback('Cannot resolve the latest version: ' + err);
+        callback('Cannot get the version list: ' + err);
         return;
       }
       if (res.statusCode !== 200) {
-        callback('Cannot resolve the latest version: ' + res.statusCode);
+        callback('Cannot get the version list: ' + res.statusCode);
         return;
       }
       const vers = body.split('j').map(v => semver().clean(v));
