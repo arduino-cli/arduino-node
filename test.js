@@ -48,9 +48,9 @@ test.after('cleanup', async t => {
   await t.notThrows(del('tmp'));
 });
 
-function testVersion(version) {
-  return test('arduino verify should compile on arduino ' + version, async t => {
-    const arduinoObj = arduino({tag: 'verify', version: version});
+function testVersion(ver) {
+  return test('arduino verify should compile on arduino ' + ver, async t => {
+    const arduinoObj = arduino({tag: 'verify', version: ver});
     await pify(arduinoObj.load)();
     const err = await t.throws(pify(arduinoObj.run)(['--verify', fixture('invalid/invalid.ino')]));
     t.is(err.failed, true);
