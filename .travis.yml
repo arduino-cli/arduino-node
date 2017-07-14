@@ -8,3 +8,7 @@ after_success: npm run coverage
 cache:
   directories:
   - bin/
+addons:
+  apt:
+    packages:
+      - oracle-java8-set-default
