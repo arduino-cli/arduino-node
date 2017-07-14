@@ -8,13 +8,13 @@ import arduino from './';
 
 const fixture = path.join.bind(path, __dirname, 'fixtures');
 
-test('arduino should fail to download versions not available', async t => {
+test.serial('arduino should fail to download versions not available', async t => {
   const arduinoObj = arduino({version: '1.5.0'});
   const err = await t.throws(pify(arduinoObj.load)());
   t.is(err.message, 'The version provided is not available');
 });
 
-test('arduino should load and unload arduino latest', async t => {
+test.serial('arduino should load and unload arduino latest', async t => {
   const arduinoObj = arduino({path: 'tmp', tag: 'load'});
   let err = await pify(arduinoObj.load)();
   t.is(err, undefined);
@@ -73,7 +73,7 @@ test.after('cleanup', async t => {
 });
 
 function testVersion(ver) {
-  return test('arduino verify should compile on arduino ' + ver, async t => {
+  return test.serial('arduino verify should compile on arduino ' + ver, async t => {
     const arduinoObj = arduino({tag: 'verify', version: ver});
     await pify(arduinoObj.load)();
     const err = await t.throws(pify(arduinoObj.run)(['--verify', fixture('invalid/invalid.ino')]));
