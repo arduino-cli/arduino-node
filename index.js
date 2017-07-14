@@ -197,8 +197,12 @@ function arduino(opts) {
   */
   function getLatestVersion(callback) {
     request()(LATEST_ENDPOINT, (err, res, body) => {
-      if (err || res.statusCode !== 200) {
-        callback(err || 'error: ' + res.statusCode);
+      if (err) {
+        callback('Cannot resolve the latest version: ' + err);
+        return;
+      }
+      if (res.statusCode !== 200) {
+        callback('Cannot resolve the latest version: ' + res.statusCode);
         return;
       }
       callback(null, body);
