@@ -13,7 +13,7 @@ const osFilterObj = lazyReq('os-filter-obj');
 
 const BIN_PATH = 'bin';
 
-const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-version/VERSION';
+const LATEST_ENDPOINT = 'https://arduino-cli.github.io/arduino-version/version';
 
 const MIRRORS = [{
   os: 'win32',
