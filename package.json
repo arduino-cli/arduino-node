@@ -48,6 +48,9 @@
     "xo": "^0.18.2"
   },
   "xo": {
-    "space": true
+    "space": true,
+    "ignores": [
+      "bin/**"
+    ]
   }
 }
