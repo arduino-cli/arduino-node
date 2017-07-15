@@ -22,7 +22,13 @@ const MIRRORS = [{
 }, {
   os: 'darwin',
   uri: 'https://github.com/arduino-cli/arduino-version/releases/download/{{version}}/arduino-{{version}}-macosx.zip',
-  bin: 'Contents/MacOS/Arduino'
+  bins: [{
+    bin: 'Contents/MacOS/Arduino',
+    version: '>=1.6.0'
+  }, {
+    bin: 'Contents/MacOS/JavaAppLauncher',
+    version: '<=1.5.8'
+  }]
 }, {
   os: 'linux',
   arch: 'x32',
@@ -217,6 +223,16 @@ function arduino(opts) {
       bin.src(mirror.uri.replace(/{{version}}/g, version), mirror.os, mirror.arch);
 
       if (mirror.os === process.platform) {
+        if (Array.isArray(mirror.bins)) {
+          mirror.bins.some(b => {
+            if (semver().satisfies(version, b.version)) {
+              bin.use(b.bin.replace(/{{version}}/g, version));
+              return true;
+            }
+            return false;
+          });
+          return;
+        }
         bin.use(mirror.bin.replace(/{{version}}/g, version));
       }
     });
