@@ -2,11 +2,11 @@ sudo: false
 language: node_js
 script:
   - xo
-  - ava --verbose test/basics.js
-  - ava --verbose test/versions-1.8.x.js
-  - ava --verbose test/versions-1.7.x.js
-  - ava --verbose test/versions-1.6.x.js
-  - ava --verbose test/versions-1.5.x.js
+  - ava -v test/basics.js
+  - ava -v test/versions-1.8.x.js
+  - ava -v test/versions-1.7.x.js
+  - ava -v test/versions-1.6.x.js
+  - ava -v test/versions-1.5.x.js
 node_js:
   - '8'
   - '6'
