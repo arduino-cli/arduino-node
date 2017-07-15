@@ -15,7 +15,6 @@ after_success: npm run coverage
 cache:
   timeout: 900
   directories:
-  - bin
   - node_modules
 addons:
   apt:
