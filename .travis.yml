@@ -2,60 +2,13 @@ sudo: false
 language: node_js
 script:
   - xo
-
   - ava test/basics.js
-
-  - ava test/versions-1.8.x.js --match='*.3'
-  - ava test/versions-1.8.x.js --match='*.2'
-  - ava test/versions-1.8.x.js --match='*.1'
-  - ava test/versions-1.8.x.js --match='*.0'
-
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.11'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.10'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.9'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.8'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.7'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.6'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.5'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.4'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.3'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.2'
-  - node --inspect node_modules/ava/profile.js test/versions-1.7.x.js --match='*.1'
-
-  - ava test/versions-1.6.x.js --match='*.13'
-  - ava test/versions-1.6.x.js --match='*.12'
-  - ava test/versions-1.6.x.js --match='*.11'
-  - ava test/versions-1.6.x.js --match='*.10'
-  - ava test/versions-1.6.x.js --match='*.9'
-  - ava test/versions-1.6.x.js --match='*.8'
-  - ava test/versions-1.6.x.js --match='*.7'
-  - ava test/versions-1.6.x.js --match='*.6'
-  - ava test/versions-1.6.x.js --match='*.5'
-  - ava test/versions-1.6.x.js --match='*.4'
-  - ava test/versions-1.6.x.js --match='*.3'
-  - ava test/versions-1.6.x.js --match='*.2'
-  - ava test/versions-1.6.x.js --match='*.1'
-  - ava test/versions-1.6.x.js --match='*.0'
-
-  - ava test/versions-1.5.x.js --match='*.8'
-  - ava test/versions-1.5.x.js --match='*.7'
-  - ava test/versions-1.5.x.js --match='*.6'
-  - ava test/versions-1.5.x.js --match='*.5'
-  - ava test/versions-1.5.x.js --match='*.4'
-  - ava test/versions-1.5.x.js --match='*.3'
-  - ava test/versions-1.5.x.js --match='*.2'
-  - ava test/versions-1.5.x.js --match='*.1'
-  - ava test/versions-1.5.x.js --match='*.0'
+  - ava test/versions-1.8.x.js
 node_js:
   - '8'
   - '6'
   - '4'
 after_success: npm run coverage
 cache:
-  timeout: 900
   directories:
   - node_modules
-addons:
-  apt:
-    packages:
-      - oracle-java8-set-default
