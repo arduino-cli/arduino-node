@@ -1,6 +1,8 @@
 #tests
+bin
+tmp
 fixtures
-test.js
+test
 
 #build tools
 .travis.yml
