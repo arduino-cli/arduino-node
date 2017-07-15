@@ -241,9 +241,9 @@ function arduino(opts) {
   }
 
   /**
+   * Gets the path to the binary
    *
    * @api public
-   * @returns /path/to/bin
    */
   function binary(callback) {
     if (inited) {
@@ -260,11 +260,32 @@ function arduino(opts) {
     });
   }
 
+  /**
+   * Gets the path to the folder containing the Arduino IDE in use
+   *
+   * @api public
+   */
+  function root(callback) {
+    if (inited) {
+      callback(null, bin.bin());
+      return;
+    }
+    getFullVersion((err, version) => {
+      if (err) {
+        callback(err);
+        return;
+      }
+      init(version);
+      callback(null, bin.path());
+    });
+  }
+
   return {
     run,
     load,
     unload,
-    binary
+    binary,
+    root
   };
 }
 
