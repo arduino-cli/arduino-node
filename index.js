@@ -267,7 +267,7 @@ function arduino(opts) {
    */
   function root(callback) {
     if (inited) {
-      callback(null, bin.bin());
+      callback(null, bin.path());
       return;
     }
     getFullVersion((err, version) => {
