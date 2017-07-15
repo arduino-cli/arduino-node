@@ -1,23 +1,19 @@
 sudo: false
 language: node_js
-node_js:
-  - '8'
-  - '6'
-  - '4'
 jobs:
   include:
-    - stage: Lint
+    - stage: Test - Lint
       node_js: '8'
       script: xo
     - stage: Test - Basics
       script: ava -v test/basics.js
-    - stage: Test - Compilation 1.8.x
+    - stage: Test - Compilation on 1.8.x
       script: ava -v test/versions-1.8.x.js
-    - stage: Test - Compilation 1.7.x
+    - stage: Test - Compilation on 1.7.x
       script: ava -v test/versions-1.7.x.js
-    - stage: Test - Compilation 1.6.x
+    - stage: Test - Compilation on 1.6.x
       script: ava -v test/versions-1.6.x.js
-    - stage: Test - Compilation 1.5.x
+    - stage: Test - Compilation on 1.5.x
       script: ava -v test/versions-1.5.x.js
 after_success: npm run coverage
 cache:
