@@ -1,6 +1,12 @@
 sudo: false
 language: node_js
-script: travis_wait 60 npm test
+script:
+  - xo
+  - ava --verbose test/basics.js
+  - ava --verbose test/versions-1.8.x.js
+  - ava --verbose test/versions-1.7.x.js
+  - ava --verbose test/versions-1.6.x.js
+  - ava --verbose test/versions-1.5.x.js
 node_js:
   - '8'
   - '6'

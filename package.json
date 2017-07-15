@@ -4,7 +4,7 @@
   "description": "A wrapper of the Arduino IDE binary written in nodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "xo --space && ava --verbose",
+    "test": "xo && ava --verbose test/basics.js && ava --verbose test/versions-1.8.x.js && ava --verbose test/versions-1.7.x.js && ava --verbose test/versions-1.6.x.js && ava --verbose test/versions-1.5.x.js",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
