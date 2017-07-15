@@ -11,7 +11,7 @@ testVersion('1.8.1');
 testVersion('1.8.0');
 
 function testVersion(ver) {
-  return test('arduino verify should compile on arduino ' + ver, async t => {
+  return test.serial('arduino verify should compile on arduino ' + ver, async t => {
     const arduinoObj = arduino({tag: 'verify', version: ver});
     await pify(arduinoObj.load)();
     const err = await t.throws(pify(arduinoObj.run)(['--verify', fixture('invalid/invalid.ino')]));
