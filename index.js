@@ -1,5 +1,5 @@
 'use strict';
-const path = require('path');
+const join = require('path').join;
 
 const lazyReq = require('lazy-req')(require);
 
@@ -57,7 +57,7 @@ const SPLASH_SCREEN = [{
 /**
  * Initialize a new `Arduino`
  *
- * @param {Object} [opts]
+ * @param {object} [opts]
  * @api public
  */
 
@@ -71,8 +71,8 @@ function arduino(opts) {
   /**
    * Runs the arduino binary
    *
-   * @param {Array}    [argv]
-   * @param {Function} callback
+   * @param {array}    [argv]
+   * @param {function} callback
    * @api public
    */
   function run(argv, callback) {
@@ -98,7 +98,7 @@ function arduino(opts) {
   /**
    * Load/download the current version of the binary
    *
-   * @param {Function} callback
+   * @param {function} callback
    * @api public
    */
   function load(callback) {
@@ -133,7 +133,7 @@ function arduino(opts) {
           return;
         }
         const dirs = splash.map(s => {
-          return path.join(bin.path(), s.img);
+          return join(bin.path(), s.img);
         });
         del()(dirs)
           .then(() => callback())
@@ -145,7 +145,7 @@ function arduino(opts) {
   /**
    * Removes the current version of the binary
    *
-   * @param  {Function} callback
+   * @param  {function} callback
    * @api public
    */
   function unload(callback) {
@@ -167,7 +167,7 @@ function arduino(opts) {
   /**
    * Checks if a version is available.
    *
-   * @param  {Function} callback
+   * @param  {function} callback
    * @api private
    */
   function getFullVersion(callback) {
@@ -192,7 +192,7 @@ function arduino(opts) {
   /**
    * Retrieves the list of arduino ide versions available
    *
-   * @param  {Function} callback
+   * @param  {function} callback
    * @api private
   */
   function getVersionsList(callback) {
@@ -213,7 +213,7 @@ function arduino(opts) {
   /**
    * Initializes the binary mirrors
    *
-   * @param {String} version
+   * @param {string} version
    * @api private
    */
   function init(version) {
@@ -265,7 +265,7 @@ function arduino(opts) {
    *
    * @api public
    */
-  function root(callback) {
+  function path(callback) {
     if (inited) {
       callback(null, bin.path());
       return;
@@ -285,7 +285,7 @@ function arduino(opts) {
     load,
     unload,
     binary,
-    root
+    path
   };
 }
 
