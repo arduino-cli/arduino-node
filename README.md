@@ -73,7 +73,7 @@ Returns the full path to the Arduino IDE binary.
 
 ### .path()
 
-Returns the full path where the binary will downloaded to.
+Returns the full path where the Arduino IDE will downloaded to.
 
 ## Authors
 * **Simone Primarosa** - [simonepri](https://github.com/simonepri)
