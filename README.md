@@ -47,7 +47,7 @@ An array of arguments to pass to the arduino IDE.
 
 #### callback(err, out)
 
-Type: `Function`
+Type: `function`
 
 Returns a possible error and the output object.
 
@@ -57,7 +57,7 @@ Runs the search for the Arduino IDE binary. If no binary is found it will downlo
 
 #### callback(err)
 
-Type: `Function`
+Type: `function`
 
 ### .unload(callback)
 
@@ -65,7 +65,7 @@ Removes downloaded Arduino IDE binary, if present.
 
 #### callback(err)
 
-Type: `Function`
+Type: `function`
 
 ### .bin()
 
