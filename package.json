@@ -56,9 +56,9 @@
   },
   "ava": {
     "verbose": true,
-		"match": [
+    "match": [
       "!bin/**",
       "!tmp/**"
-		]
+    ]
   }
 }
