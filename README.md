@@ -43,7 +43,7 @@ Runs the Arduino IDE binary. If the binary is not loaded it will also load it.
 
 Type: `array`<br>
 Default: `[]`
-An array of arguments to pass to the arduino IDE.
+An array of arguments to pass to the Arduino IDE.
 
 #### callback(err, out)
 
