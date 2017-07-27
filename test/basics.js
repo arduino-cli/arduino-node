@@ -52,9 +52,9 @@ test.serial('should get path', async t => {
   });
 });
 
-test.serial('should get path without load', t => {
+test.serial('should get path without load', async t => {
   const arduinoObj = arduino({path: 'tmp', tag: 'pathimm', version: '1.8.3'});
-  arduinoObj.path((err, path) => {
+  await arduinoObj.path((err, path) => {
     t.is(err, null);
     t.is(path, 'tmp/arduino-1.8.3-path');
   });
