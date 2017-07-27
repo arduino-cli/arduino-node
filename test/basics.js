@@ -43,20 +43,20 @@ test.serial('arduino should run succesfully if not loaded', async t => {
 });
 
 test.serial('should get path', async t => {
-  const arduinoObj = arduino({path: 'tmp', tag: 'path'});
+  const arduinoObj = arduino({path: 'tmp', tag: 'path', version: '1.8.3'});
   const erro = await pify(arduinoObj.load)();
   t.is(erro, undefined);
   arduinoObj.path((err, path) => {
     t.is(err, null);
-    t.is(path, 'tmp');
+    t.is(path, 'tmp/arduino-1.8.3-path');
   });
 });
 
 test.serial('should get path without load', t => {
-  const arduinoObj = arduino({path: 'tmp', tag: 'pathimm'});
+  const arduinoObj = arduino({path: 'tmp', tag: 'pathimm', version: '1.8.3'});
   arduinoObj.path((err, path) => {
     t.is(err, null);
-    t.is(path, 'tmp');
+    t.is(path, 'tmp/arduino-1.8.3-path');
   });
 });
 
