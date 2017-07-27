@@ -54,10 +54,8 @@ test.serial('should get path', async t => {
 
 test.serial('should get path without load', async t => {
   const arduinoObj = arduino({path: 'tmp', tag: 'pathimm', version: '1.8.3'});
-  await arduinoObj.path((err, path) => {
-    t.is(err, null);
-    t.is(path, 'tmp/arduino-1.8.3-path');
-  });
+  const path = await pify(arduinoObj.path)();
+  t.is(path, 'tmp/arduino-1.8.3-path');
 });
 
 test.after('cleanup', async t => {
