@@ -276,6 +276,7 @@ function arduino(opts) {
     init(err => {
       if (err) {
         callback(err);
+        return;
       }
       callback(null, bin.path());
     });
