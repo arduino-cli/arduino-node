@@ -36,12 +36,30 @@ test.serial('arduino should not download the IDE twice', async t => {
 });
 
 test.serial('arduino should run succesfully if not loaded', async t => {
-  const arduinoObj = arduino({tag: 'run'});
+  const arduinoObj = arduino({path: 'tmp', tag: 'run'});
   const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
   t.is(out.failed, false);
   arduinoObj.unload();
 });
 
-test.serial.after('cleanup', async t => {
+test.serial('should get path', async t => {
+  const arduinoObj = arduino({path: 'tmp', tag: 'path'});
+  const erro = await pify(arduinoObj.load)();
+  t.is(erro, undefined);
+  arduinoObj.path((err, path) => {
+    t.is(err, null);
+    t.is(path, 'tmp');
+  });
+});
+
+test.serial('should get path without load', t => {
+  const arduinoObj = arduino({path: 'tmp', tag: 'pathimm'});
+  arduinoObj.path((err, path) => {
+    t.is(err, null);
+    t.is(path, 'tmp');
+  });
+});
+
+test.after('cleanup', async t => {
   await t.notThrows(del('tmp'));
 });
