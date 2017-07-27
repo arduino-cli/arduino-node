@@ -264,7 +264,7 @@ function arduino(opts) {
   }
 
   /**
-   * Gets the path to the folder containing the Arduino IDE in use
+   * Gets the path of the folder containing the Arduino IDE in use
    *
    * @api public
    */
