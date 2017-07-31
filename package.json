@@ -1,6 +1,6 @@
 {
   "name": "arduino-node",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A wrapper of the Arduino IDE binary written in nodeJS",
   "main": "index.js",
   "scripts": {
