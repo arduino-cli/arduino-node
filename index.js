@@ -85,7 +85,7 @@ function arduino(opts) {
       return;
     }
 
-    init(err => {
+    load(err => {
       if (err) {
         callback(err);
         return;
