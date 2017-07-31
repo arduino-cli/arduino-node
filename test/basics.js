@@ -57,6 +57,12 @@ test.serial('should get path without load', async t => {
   t.is(path, 'tmp/arduino-1.8.3-pathimm');
 });
 
+test.serial('should unload without load', async t => {
+  const arduinoObj = arduino({path: 'tmp', tag: 'unload'});
+  const err = await pify(arduinoObj.unload)();
+  t.is(err, undefined);
+});
+
 test.after('cleanup', async t => {
   await t.notThrows(del('tmp'));
 });
