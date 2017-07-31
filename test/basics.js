@@ -39,7 +39,6 @@ test.serial('arduino should run succesfully if not loaded', async t => {
   const arduinoObj = arduino({path: 'tmp', tag: 'run'});
   const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
   t.is(out.failed, false);
-  arduinoObj.unload();
 });
 
 test.serial('should get path', async t => {
