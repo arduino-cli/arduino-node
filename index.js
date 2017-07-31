@@ -85,7 +85,7 @@ function arduino(opts) {
       return;
     }
 
-    init(err => {
+    load(err => {
       if (err) {
         callback(err);
         return;
@@ -264,7 +264,7 @@ function arduino(opts) {
   }
 
   /**
-   * Gets the path to the folder containing the Arduino IDE in use
+   * Gets the path of the folder containing the Arduino IDE in use
    *
    * @api public
    */
@@ -276,6 +276,7 @@ function arduino(opts) {
     init(err => {
       if (err) {
         callback(err);
+        return;
       }
       callback(null, bin.path());
     });
