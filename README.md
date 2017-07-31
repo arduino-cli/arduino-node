@@ -36,6 +36,28 @@ ardu180.run(['--verify', './your-project/your-project.ino'], (err, out) => {
 
 ## API
 
+### arduino(options)
+
+Creates a new `arduino` instance.
+
+#### options
+
+Type: `object`
+
+##### version
+
+Type: `string`<br>
+Default: `'latest'`
+
+The Arduino IDE version to use.
+
+##### path
+
+Type: `string`<br>
+Default: `'bin'`
+
+The path where Arduino IDE will resides.
+
 ### .run([arguments], callback)
 
 Runs the Arduino IDE binary. If the binary is not loaded it will also load it.
@@ -44,6 +66,7 @@ Runs the Arduino IDE binary. If the binary is not loaded it will also load it.
 
 Type: `array`<br>
 Default: `[]`
+
 An array of arguments to pass to the Arduino IDE.
 
 #### callback(err, out)

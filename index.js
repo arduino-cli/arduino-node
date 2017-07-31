@@ -85,12 +85,11 @@ function arduino(opts) {
       return;
     }
 
-    getFullVersion((err, version) => {
+    load(err => {
       if (err) {
         callback(err);
         return;
       }
-      init(version);
       bin.run(argv, callback);
     });
   }
@@ -112,12 +111,11 @@ function arduino(opts) {
       return;
     }
 
-    getFullVersion((err, version) => {
+    init(err => {
       if (err) {
         callback(err);
         return;
       }
-      init(version);
       bin.load(opts, err => {
         if (err) {
           callback(err);
@@ -150,17 +148,16 @@ function arduino(opts) {
    */
   function unload(callback) {
     if (inited) {
-      bin.unload(err => callback(err));
+      bin.unload(callback);
       return;
     }
 
-    getFullVersion((err, version) => {
+    init(err => {
       if (err) {
         callback(err);
         return;
       }
-      init(version);
-      bin.unload(err => callback(err));
+      bin.unload(callback);
     });
   }
 
@@ -216,28 +213,35 @@ function arduino(opts) {
    * @param {string} version
    * @api private
    */
-  function init(version) {
-    const slug = 'arduino-' + version + binSlug;
-    bin = manager()(binPath, slug);
-    MIRRORS.forEach(mirror => {
-      bin.src(mirror.uri.replace(/{{version}}/g, version), mirror.os, mirror.arch);
-
-      if (mirror.os === process.platform) {
-        if (Array.isArray(mirror.bins)) {
-          mirror.bins.some(b => {
-            if (semver().satisfies(version, b.version)) {
-              bin.use(b.bin.replace(/{{version}}/g, version));
-              return true;
-            }
-            return false;
-          });
-          return;
-        }
-        bin.use(mirror.bin.replace(/{{version}}/g, version));
+  function init(callback) {
+    getFullVersion((err, version) => {
+      if (err) {
+        callback(err);
+        return;
       }
-    });
+      const slug = 'arduino-' + version + binSlug;
+      bin = manager()(binPath, slug);
+      MIRRORS.forEach(mirror => {
+        bin.src(mirror.uri.replace(/{{version}}/g, version), mirror.os, mirror.arch);
 
-    inited = true;
+        if (mirror.os === process.platform) {
+          if (Array.isArray(mirror.bins)) {
+            mirror.bins.some(b => {
+              if (semver().satisfies(version, b.version)) {
+                bin.use(b.bin.replace(/{{version}}/g, version));
+                return true;
+              }
+              return false;
+            });
+            return;
+          }
+          bin.use(mirror.bin.replace(/{{version}}/g, version));
+        }
+      });
+
+      inited = true;
+      callback();
+    });
   }
 
   /**
@@ -250,18 +254,17 @@ function arduino(opts) {
       callback(null, bin.bin());
       return;
     }
-    getFullVersion((err, version) => {
+    init(err => {
       if (err) {
         callback(err);
         return;
       }
-      init(version);
       callback(null, bin.bin());
     });
   }
 
   /**
-   * Gets the path to the folder containing the Arduino IDE in use
+   * Gets the path of the folder containing the Arduino IDE in use
    *
    * @api public
    */
@@ -270,12 +273,11 @@ function arduino(opts) {
       callback(null, bin.path());
       return;
     }
-    getFullVersion((err, version) => {
+    init(err => {
       if (err) {
         callback(err);
         return;
       }
-      init(version);
       callback(null, bin.path());
     });
   }

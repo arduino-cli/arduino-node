@@ -1,3 +1,4 @@
+import path from 'path';
 import del from 'del';
 import pify from 'pify';
 import executable from 'executable';
@@ -5,13 +6,15 @@ import exists from 'exists-file';
 import test from 'ava';
 import arduino from '../index';
 
-test('arduino should fail to download versions not available', async t => {
+const fixture = path.join.bind(path, 'fixtures');
+
+test.serial('arduino should fail to download versions not available', async t => {
   const arduinoObj = arduino({version: '1.5.0'});
   const err = await t.throws(pify(arduinoObj.load)());
   t.is(err.message, 'The version provided is not available');
 });
 
-test('arduino should load and unload arduino latest', async t => {
+test.serial('arduino should load and unload arduino latest.serial', async t => {
   const arduinoObj = arduino({path: 'tmp', tag: 'load'});
   let err = await pify(arduinoObj.load)();
   t.is(err, undefined);
@@ -22,6 +25,42 @@ test('arduino should load and unload arduino latest', async t => {
   t.is(err, undefined);
   const result = await exists(bin);
   t.is(result, false);
+});
+
+test.serial('arduino should not download the IDE twice', async t => {
+  const arduinoObj = arduino({path: 'tmp', tag: 'load'});
+  const err = await pify(arduinoObj.load)();
+  t.is(err, undefined);
+  const err2 = await pify(arduinoObj.load)();
+  t.is(err2, undefined);
+});
+
+test.serial('arduino should run succesfully if not loaded', async t => {
+  const arduinoObj = arduino({path: 'tmp', tag: 'run'});
+  const out = await pify(arduinoObj.run)(['--verify', fixture('empty/empty.ino')]);
+  t.is(out.failed, false);
+});
+
+test.serial('should get path', async t => {
+  const arduinoObj = arduino({path: 'tmp', tag: 'path', version: '1.8.3'});
+  const erro = await pify(arduinoObj.load)();
+  t.is(erro, undefined);
+  arduinoObj.path((err, path) => {
+    t.is(err, null);
+    t.is(path, 'tmp/arduino-1.8.3-path');
+  });
+});
+
+test.serial('should get path without load', async t => {
+  const arduinoObj = arduino({path: 'tmp', tag: 'pathimm', version: '1.8.3'});
+  const path = await pify(arduinoObj.path)();
+  t.is(path, 'tmp/arduino-1.8.3-pathimm');
+});
+
+test.serial('should unload without load', async t => {
+  const arduinoObj = arduino({path: 'tmp', tag: 'unload'});
+  const err = await pify(arduinoObj.unload)();
+  t.is(err, undefined);
 });
 
 test.after('cleanup', async t => {
